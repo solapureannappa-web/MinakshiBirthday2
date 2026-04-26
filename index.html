@@ -6,17 +6,20 @@
   <title>Happy Birthday Minakshi 🎂</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet"/>
   <style>
-.heart {
-  position: fixed;
-  color: #e8416a;
-  font-size: 20px;
-  animation: floatUp 2s linear forwards;
-  pointer-events: none;
-}
-@keyframes floatUp {
-  0% { transform: translateY(0); opacity:1; }
-  100% { transform: translateY(-150px); opacity:0; }
-}
+
+    /* ── STEP 5: HEART CLICK EFFECT ── */
+    .heart {
+      position: fixed;
+      color: #e8416a;
+      font-size: 22px;
+      animation: floatUp 2s linear forwards;
+      pointer-events: none;
+      z-index: 99998;
+    }
+    @keyframes floatUp {
+      0%   { transform: translateY(0) scale(1); opacity: 1; }
+      100% { transform: translateY(-160px) scale(1.3); opacity: 0; }
+    }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
@@ -39,9 +42,10 @@
       font-size: 24px;
       box-shadow: 0 6px 20px rgba(232,65,106,0.5);
       cursor: pointer; z-index: 10000; border: none;
-      transition: transform .2s;
+      transition: transform .2s, box-shadow .2s;
     }
     #music-btn:active { transform: scale(.9); }
+    #music-btn:hover  { box-shadow: 0 10px 30px rgba(232,65,106,0.8); }
 
     /* ── OVERLAY ── */
     #tap-overlay {
@@ -51,10 +55,9 @@
       display: flex; flex-direction: column;
       align-items: center; justify-content: center;
       text-align: center; padding: 30px;
-      transition: opacity 0.5s ease;
+      transition: opacity 0.6s ease;
     }
     #tap-overlay.hide { opacity: 0; pointer-events: none; }
-
     #tap-overlay::before, #tap-overlay::after {
       content: ''; position: absolute; border-radius: 50%;
       background: rgba(247,201,72,0.06);
@@ -66,9 +69,9 @@
     .gift-box {
       font-size: 80px; margin-bottom: 20px;
       position: relative; z-index: 1;
-      animation: float 2.5s ease-in-out infinite;
+      animation: floatGift 2.5s ease-in-out infinite;
     }
-    @keyframes float { 0%,100%{transform:translateY(0) rotate(-3deg);} 50%{transform:translateY(-16px) rotate(3deg);} }
+    @keyframes floatGift { 0%,100%{transform:translateY(0) rotate(-3deg);} 50%{transform:translateY(-16px) rotate(3deg);} }
 
     #tap-overlay h2 {
       font-family: 'Playfair Display', serif; color: white;
@@ -115,6 +118,7 @@
     @keyframes pulse { 0%,100%{transform:scale(1);opacity:.6;} 50%{transform:scale(1.15);opacity:1;} }
     .crown { font-size:60px; animation:bounceIcon 2s ease-in-out infinite; }
     @keyframes bounceIcon { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-12px);} }
+    /* STEP 4: typed-name span */
     .hero h1 { font-family:'Playfair Display',serif; font-size:clamp(36px,8vw,72px); color:#fff; letter-spacing:2px; margin:16px 0 8px; text-shadow:0 4px 20px rgba(0,0,0,0.3); }
     .hero h1 span { color:var(--gold); }
     .hero .subtitle { font-size:clamp(14px,3vw,20px); color:rgba(255,255,255,0.75); letter-spacing:4px; text-transform:uppercase; margin-bottom:40px; }
@@ -157,15 +161,6 @@
     .wish-card h3 { font-family:'Playfair Display',serif; font-size:18px; margin-bottom:8px; color:var(--rose); }
     .wish-card p  { font-size:14px; color:#777; line-height:1.6; }
 
-    /* ── SONG SECTION ── */
-    .song-section { background:linear-gradient(135deg,#3b1a2e,#7a2246); padding:70px 24px; text-align:center; }
-    .song-inner { max-width:600px; margin:0 auto; }
-    .song-section .section-label { color:var(--gold); }
-    .song-section .section-title { color:white; margin-bottom:12px; }
-    .song-section .sub { color:rgba(255,255,255,0.6); margin-bottom:30px; font-style:italic; font-size:15px; }
-    .video-wrap { border-radius:20px; overflow:hidden; box-shadow:0 20px 60px rgba(0,0,0,0.5); border:3px solid rgba(247,201,72,0.4); }
-    .video-wrap iframe { width:100%; height:360px; display:block; border:none; }
-
     /* ── FOOTER ── */
     .footer { text-align:center; padding:60px 24px; background:var(--dark); color:rgba(255,255,255,0.6); }
     .big-heart { font-size:60px; display:block; margin-bottom:16px; animation:heartbeat 1.5s ease-in-out infinite; }
@@ -184,290 +179,334 @@
     .lightbox img { max-width:90vw; max-height:88vh; border-radius:16px; box-shadow:0 0 60px rgba(232,65,106,0.5); }
     .lightbox-close { position:absolute; top:20px; right:28px; font-size:38px; color:white; cursor:pointer; }
 
+    /* ── STEP 7: FINAL POPUP ── */
+    #final-popup {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.88);
+      color: white;
+      justify-content: center; align-items: center;
+      z-index: 999999;
+      text-align: center;
+      padding: 30px;
+    }
+    .popup-box {
+      background: linear-gradient(135deg, #3b1a2e, #7a2246);
+      border: 2px solid var(--gold);
+      border-radius: 28px;
+      padding: 50px 36px;
+      max-width: 400px;
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(18px, 4vw, 24px);
+      line-height: 2;
+      box-shadow: 0 0 80px rgba(232,65,106,0.5);
+      animation: popIn .5s ease;
+    }
+    @keyframes popIn { 0%{transform:scale(.7);opacity:0;} 100%{transform:scale(1);opacity:1;} }
+    .popup-close {
+      margin-top: 24px; display: inline-block;
+      background: var(--gold); color: var(--dark);
+      border: none; padding: 12px 32px; border-radius: 30px;
+      font-size: 15px; font-weight: 700; cursor: pointer;
+      font-family: 'Lato', sans-serif; letter-spacing: 1px;
+    }
+
     @media(max-width:540px){
       .gallery-grid { grid-template-rows:150px 150px 140px; }
       .message-card { padding:38px 18px; }
-      .video-wrap iframe { height:220px; }
     }
   </style>
 </head>
 <body>
-<div id="final-popup" style="
-display:none;
-position:fixed;
-inset:0;
-background:rgba(0,0,0,0.85);
-color:white;
-justify-content:center;
-align-items:center;
-z-index:99999;
-text-align:center;
-font-size:24px;
-padding:20px;
-">
-</div>
-<!--
-  ╔══════════════════════════════════════════════════════╗
-  ║  🎵 SONG SOURCE — UPDATE THIS AFTER GITHUB UPLOAD   ║
-  ║                                                      ║
-  ║  1. Upload  jaisemerat_NkIxrAeA.mp3  to GitHub      ║
-  ║  2. Open the file on GitHub → click "Raw"            ║
-  ║  3. Copy that raw URL and paste it in src below      ║
-  ║                                                      ║
-  ║  Raw URL looks like:                                 ║
-  ║  https://raw.githubusercontent.com/USERNAME/         ║
-  ║    REPO/main/jaisemerat_NkIxrAeA.mp3                ║
-  ╚══════════════════════════════════════════════════════╝
--->
-<audio id="bg-audio" loop preload="auto">
-  <source src="https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/jaisemerat_NkIxrAeA.mp3" type="audio/mpeg"/>
-</audio>
 
-<!-- ══ FLOATING MUSIC BUTTON ══ -->
-<button id="music-btn" title="Toggle Music">🎵</button>
+  <!-- ══ STEP 1: REAL MP3 AUDIO ══ -->
+  <audio id="bg-audio" loop preload="auto">
+    <source src="https://raw.githubusercontent.com/solapureannappa-web/MinakshiBirthday/main/jaisemerat_NkIxrAeA.mp3" type="audio/mpeg"/>
+  </audio>
 
-<!-- ══ ONE-TAP OVERLAY ══ -->
-<div id="tap-overlay">
-  <div class="gift-box">🎁</div>
-  <h2>A Gift for You,<br><span class="name-gold">Minakshi</span> 🌸</h2>
-  <p>Tap once to unwrap your<br>birthday surprise 🎶</p>
-  <button class="start-btn" id="startBtn">🌸 Open My Birthday Surprise 🌸</button>
-  <p class="volume-hint">🔊 Turn your volume up!</p>
-</div>
+  <!-- ══ FLOATING MUSIC BUTTON ══ -->
+  <button id="music-btn" title="Toggle Music">🎵</button>
 
-<canvas id="confetti-canvas"></canvas>
+  <!-- ══ ONE-TAP OVERLAY ══ -->
+  <div id="tap-overlay">
+    <div class="gift-box">🎁</div>
+    <h2>A Gift for You,<br><span class="name-gold">Minakshi</span> 🌸</h2>
+    <p>Tap once to unwrap your<br>birthday surprise 🎶</p>
+    <button class="start-btn" id="startBtn">🌸 Open My Birthday Surprise 🌸</button>
+    <p class="volume-hint">🔊 Turn your volume up!</p>
+  </div>
 
-<!-- LIGHTBOX -->
-<div class="lightbox" id="lightbox" onclick="closeLightbox()">
-  <span class="lightbox-close">✕</span>
-  <img id="lightbox-img" src="" alt="Photo"/>
-</div>
+  <!-- ══ CONFETTI ══ -->
+  <canvas id="confetti-canvas"></canvas>
 
-<!-- ══ HERO ══ -->
-<div class="hero">
-  <div class="crown">👑</div>
-  <h1>Happy Birthday<br><span id="typed-name"></span> 🌸</h1>
-  <p class="subtitle">Today is all about you</p>
-  <div class="scroll-hint">scroll to feel the love <span>↓</span></div>
-</div>
+  <!-- ══ LIGHTBOX ══ -->
+  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <span class="lightbox-close">✕</span>
+    <img id="lightbox-img" src="" alt="Photo"/>
+  </div>
 
-<!-- ══ GALLERY ══ -->
-<div class="gallery-section">
-  <div class="gallery-inner">
-    <p class="section-label">📸 Our Beautiful Memories</p>
-    <h2 class="section-title">Moments That Matter ✨</h2>
-    <div class="gallery-grid">
-      <div class="img-wrap" onclick="openLightbox('IMG-20260425-WA0009.jpg')">
-        <img src="IMG-20260425-WA0009.jpg" alt="Memory 1" onerror="this.src='https://placehold.co/600x400/fde8f0/e8416a?text=📸+Photo+1'"/>
-        <div class="img-caption">Our favourite memory 💛</div>
-      </div>
-      <div class="img-wrap" onclick="openLightbox('IMG-20260425-WA0010.jpg')">
-        <img src="IMG-20260425-WA0010.jpg" alt="Memory 2" onerror="this.src='https://placehold.co/600x800/fde8f0/e8416a?text=📸+Photo+2'"/>
-        <div class="img-caption">Always smiling together 🌸</div>
-      </div>
-      <div class="img-wrap" onclick="openLightbox('IMG-20260425-WA0011.jpg')">
-        <img src="IMG-20260425-WA0011.jpg" alt="Memory 3" onerror="this.src='https://placehold.co/600x400/fde8f0/e8416a?text=📸+Photo+3'"/>
-        <div class="img-caption">Best moments ever 🎉</div>
-      </div>
-      <div class="img-wrap" onclick="openLightbox('IMG-20260425-WA0012.jpg')">
-        <img src="IMG-20260425-WA0012.jpg" alt="Memory 4" onerror="this.src='https://placehold.co/900x400/fde8f0/e8416a?text=📸+Photo+4'"/>
-        <div class="img-caption">Forever best friends 💕</div>
+  <!-- ══ STEP 7: FINAL POPUP ══ -->
+  <div id="final-popup">
+    <div class="popup-box">
+      💖 Minakshi 💖<br>
+      You are my everything 🌸<br>
+      Happy Birthday 🎂✨<br>
+      — Forever Yours 💌
+      <br>
+      <button class="popup-close" onclick="document.getElementById('final-popup').style.display='none'">
+        Close ✕
+      </button>
+    </div>
+  </div>
+
+  <!-- ══ HERO ══ -->
+  <div class="hero">
+    <div class="crown">👑</div>
+    <!-- STEP 4: typed-name -->
+    <h1>Happy Birthday<br><span id="typed-name"></span> 🌸</h1>
+    <p class="subtitle">Today is all about you</p>
+    <div class="scroll-hint">scroll to feel the love <span>↓</span></div>
+  </div>
+
+  <!-- ══ GALLERY ══ -->
+  <div class="gallery-section">
+    <div class="gallery-inner">
+      <p class="section-label">📸 Our Beautiful Memories</p>
+      <h2 class="section-title">Moments That Matter ✨</h2>
+      <div class="gallery-grid">
+        <div class="img-wrap" onclick="openLightbox('IMG-20260425-WA0009.jpg')">
+          <img src="IMG-20260425-WA0009.jpg" alt="Memory 1" onerror="this.src='https://placehold.co/600x400/fde8f0/e8416a?text=📸+Photo+1'"/>
+          <div class="img-caption">Our favourite memory 💛</div>
+        </div>
+        <div class="img-wrap" onclick="openLightbox('IMG-20260425-WA0010.jpg')">
+          <img src="IMG-20260425-WA0010.jpg" alt="Memory 2" onerror="this.src='https://placehold.co/600x800/fde8f0/e8416a?text=📸+Photo+2'"/>
+          <div class="img-caption">Always smiling together 🌸</div>
+        </div>
+        <div class="img-wrap" onclick="openLightbox('IMG-20260425-WA0011.jpg')">
+          <img src="IMG-20260425-WA0011.jpg" alt="Memory 3" onerror="this.src='https://placehold.co/600x400/fde8f0/e8416a?text=📸+Photo+3'"/>
+          <div class="img-caption">Best moments ever 🎉</div>
+        </div>
+        <div class="img-wrap" onclick="openLightbox('IMG-20260425-WA0012.jpg')">
+          <img src="IMG-20260425-WA0012.jpg" alt="Memory 4" onerror="this.src='https://placehold.co/900x400/fde8f0/e8416a?text=📸+Photo+4'"/>
+          <div class="img-caption">Forever best friends 💕</div>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
-<!-- ══ MESSAGE ══ -->
-<section class="message-section">
-  <p class="section-label">💌 A Message From the Heart</p>
-  <h2 class="section-title">Words That Can't Wait</h2>
-  <div class="message-card">
-    <div class="message-text">
-      <span class="reveal-line" id="m1">Happy Birthday to my constant, my comfort, my best friend. 🌷</span>
-      <span class="reveal-line" id="m2">Thank you for filling my life with laughter, support, and memories. 💛</span>
-      <span class="reveal-line" id="m3">You have been there through every storm, every joy, every quiet moment.</span>
-      <span class="reveal-line" id="m4">A friend like you is rare — a treasure found once in a lifetime. 🌟</span>
-      <span class="reveal-line" id="m5">May this birthday bring you all the joy you've given me and more. 🎂</span>
-      <span class="reveal-line" id="m6">Here's to you, to us, to forever being the best of friends. 🥂💕</span>
+  <!-- ══ MESSAGE ══ -->
+  <section class="message-section">
+    <p class="section-label">💌 A Message From the Heart</p>
+    <h2 class="section-title">Words That Can't Wait</h2>
+    <div class="message-card">
+      <div class="message-text">
+        <span class="reveal-line" id="m1">Happy Birthday to my constant, my comfort, my best friend. 🌷</span>
+        <span class="reveal-line" id="m2">Thank you for filling my life with laughter, support, and memories. 💛</span>
+        <span class="reveal-line" id="m3">You have been there through every storm, every joy, every quiet moment.</span>
+        <span class="reveal-line" id="m4">A friend like you is rare — a treasure found once in a lifetime. 🌟</span>
+        <span class="reveal-line" id="m5">May this birthday bring you all the joy you've given me and more. 🎂</span>
+        <span class="reveal-line" id="m6">Here's to you, to us, to forever being the best of friends. 🥂💕</span>
+      </div>
+      <button class="tap-btn" id="revealBtn" onclick="revealNext()">💝 Tap to Open the Message</button>
     </div>
-    <button class="tap-btn" id="revealBtn" onclick="revealNext()">💝 Tap to Open the Message</button>
-  </div>
-  <div class="wishes-grid">
-    <div class="wish-card" data-delay="0"><div class="wish-icon">🌺</div><h3>Happiness</h3><p>May every single day overflow with joy and beautiful surprises.</p></div>
-    <div class="wish-card" data-delay="150"><div class="wish-icon">💪</div><h3>Strength</h3><p>May you always find the courage to chase your biggest dreams.</p></div>
-    <div class="wish-card" data-delay="300"><div class="wish-icon">🌈</div><h3>Peace</h3><p>May your heart always be light and your mind always at ease.</p></div>
-    <div class="wish-card" data-delay="450"><div class="wish-icon">✨</div><h3>Magic</h3><p>May this new year of your life feel like the best chapter yet.</p></div>
-  </div>
-</section>
-
-<!-- ══ SONG ══ -->
-<div class="song-section">
-  <div class="song-inner">
-    <p class="section-label">🎵 A Song Just for You</p>
-    <h2 class="section-title">Playing in the Background 🎶</h2>
-    <p class="sub">This song is playing just for you… feel it! 🎧💕</p>
-    <div class="video-wrap">
-      <iframe
-        src="https://www.youtube.com/embed/oGkmFMP3lCM?rel=0"
-        title="Birthday Song for Minakshi"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen>
-      </iframe>
+    <div class="wishes-grid">
+      <div class="wish-card" data-delay="0"><div class="wish-icon">🌺</div><h3>Happiness</h3><p>May every single day overflow with joy and beautiful surprises.</p></div>
+      <div class="wish-card" data-delay="150"><div class="wish-icon">💪</div><h3>Strength</h3><p>May you always find the courage to chase your biggest dreams.</p></div>
+      <div class="wish-card" data-delay="300"><div class="wish-icon">🌈</div><h3>Peace</h3><p>May your heart always be light and your mind always at ease.</p></div>
+      <div class="wish-card" data-delay="450"><div class="wish-icon">✨</div><h3>Magic</h3><p>May this new year of your life feel like the best chapter yet.</p></div>
     </div>
-  </div>
-</div>
+  </section>
 
-<!-- ══ FOOTER ══ -->
-<div class="footer">
-  <span class="big-heart">💖</span>
-  <h2>Happy Birthday, Minakshi!</h2>
-  <p>Wishing you a day as wonderful as you are 🌸</p>
-  <p class="sig">— With so much love, always 💌</p>
-</div>
+  <!-- ══ FOOTER ══ -->
+  <div class="footer">
+    <span class="big-heart">💖</span>
+    <h2>Happy Birthday, Minakshi!</h2>
+    <p>Wishing you a day as wonderful as you are 🌸</p>
+    <p class="sig">— With so much love, always 💌</p>
+  </div>
 
 <script>
+  /* ══ VARIABLES ══ */
   const audio    = document.getElementById('bg-audio');
   const musicBtn = document.getElementById('music-btn');
   const overlay  = document.getElementById('tap-overlay');
   const startBtn = document.getElementById('startBtn');
   let musicPlaying = false;
 
+  /* ══ STEP 6: FIREWORK FUNCTION ══ */
+  function createFirework() {
+    const fwColors = ['#ff4d6d','#ffd166','#f72585','#4cc9f0','#f7c948','#ffffff'];
+    for (let i = 0; i < 30; i++) {
+      const fw = document.createElement('div');
+      fw.style.cssText = `
+        position:fixed; left:50%; top:50%;
+        width:7px; height:7px;
+        background:${fwColors[Math.floor(Math.random()*fwColors.length)]};
+        border-radius:50%; pointer-events:none; z-index:99998;
+      `;
+      const angle    = Math.random() * 2 * Math.PI;
+      const distance = Math.random() * 220 + 60;
+      fw.animate([
+        { transform: 'translate(-50%,-50%)', opacity: 1 },
+        { transform: `translate(calc(-50% + ${Math.cos(angle)*distance}px), calc(-50% + ${Math.sin(angle)*distance}px))`, opacity: 0 }
+      ], { duration: 900, easing: 'ease-out', fill: 'forwards' });
+      document.body.appendChild(fw);
+      setTimeout(() => fw.remove(), 950);
+    }
+  }
+
+  /* ══ START BUTTON ══ */
   startBtn.addEventListener('click', () => {
-    // Dismiss overlay instantly
+    // Hide overlay
     overlay.classList.add('hide');
-    setTimeout(() => { overlay.style.display = 'none'; }, 550);
+    setTimeout(() => { overlay.style.display = 'none'; }, 600);
 
-    // Play the song — works because this is a direct user click
+    // STEP 6: Firework on start
+    setTimeout(createFirework, 500);
+
+    // STEP 3: Load + fade-in audio
     audio.load();
-audiaudio.load();
-audio.volume = 0;
-
-audio.play()
-  .then(() => {
-
-    // 🎶 fade-in
-    let vol = 0;
-    let fade = setInterval(() => {
-      if (vol < 1) {
-        vol += 0.03;
-        audio.volume = vol;
-      } else {
-        clearInterval(fade);
-      }
-    }, 200);
-
-    // ✅ update UI
-    musicPlaying = true;
-    musicBtn.textContent = '🎵';
-
-  })
-  .catch(err => {
-    console.warn('Audio play failed:', err);
-    musicBtn.textContent = '▶️';
+    audio.volume = 0;
+    audio.play()
+      .then(() => {
+        musicPlaying = true;
+        musicBtn.textContent = '🎵';
+        let vol = 0;
+        const fade = setInterval(() => {
+          if (vol < 1) {
+            vol = Math.min(vol + 0.03, 1);
+            audio.volume = vol;
+          } else {
+            clearInterval(fade);
+          }
+        }, 200);
+      })
+      .catch(() => {
+        musicBtn.textContent = '▶️';
+      });
   });
 
-  // Floating toggle button
+  /* ══ MUSIC TOGGLE (outside startBtn — fixed) ══ */
   musicBtn.addEventListener('click', () => {
     if (musicPlaying) {
       audio.pause();
       musicBtn.textContent = '▶️';
       musicPlaying = false;
     } else {
-      audio.play();
-      musicBtn.textContent = '🎵';
-      musicPlaying = true;
+      audio.play()
+        .then(() => {
+          musicBtn.textContent = '🎵';
+          musicPlaying = true;
+        })
+        .catch(() => { musicBtn.textContent = '▶️'; });
     }
   });
 
-const name = "Minakshi";
-let i = 0;
-
-function typeEffect() {
-  if (i < name.length) {
-    document.getElementById("typed-name").innerHTML += name.charAt(i);
-    i++;
-    setTimeout(typeEffect, 120);
+  /* ══ STEP 4: TYPEWRITER EFFECT ══ */
+  const name = "Minakshi";
+  let charIdx = 0;
+  function typeEffect() {
+    if (charIdx < name.length) {
+      document.getElementById('typed-name').innerHTML += name.charAt(charIdx);
+      charIdx++;
+      setTimeout(typeEffect, 120);
+    }
   }
-}
-setTimeout(typeEffect, 800);
+  setTimeout(typeEffect, 800);
 
-document.addEventListener("click", function(e) {
-  const heart = document.createElement("div");
-  heart.className = "heart";
-  heart.innerHTML = "💖";
 
-  heart.style.left = e.clientX + "px";
-  heart.style.top = e.clientY + "px";
+  /* ══ STEP 5: FLOATING HEARTS ON CLICK ══ */
+  document.addEventListener('click', function(e) {
+    if (e.target.closest('#tap-overlay') || e.target.closest('.lightbox')) return;
+    const emojis = ['💖','💕','💗','💝','🌸','✨'];
+    const heart = document.createElement('div');
+    heart.className = 'heart';
+    heart.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
+    heart.style.left = e.clientX + 'px';
+    heart.style.top  = e.clientY + 'px';
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 2000);
+  });
 
-  document.body.appendChild(heart);
-  setTimeout(() => heart.remove(), 2000);
-});
-
-function createFirework() {
-  const colors = ['#ff4d6d','#ffd166','#f72585','#4cc9f0','#f7c948'];
-
-  for (let i = 0; i < 30; i++) {
-    const fw = document.createElement("div");
-
-    fw.style.position = "fixed";
-    fw.style.left = "50%";
-    fw.style.top = "50%";
-    fw.style.width = "6px";
-    fw.style.height = "6px";
-    fw.style.background = colors[Math.floor(Math.random()*colors.length)];
-    fw.style.borderRadius = "50%";
-
-    const angle = Math.random() * 2 * Math.PI;
-    const distance = Math.random() * 200;
-
-    fw.animate([
-      { transform: "translate(0,0)" },
-      { transform: `translate(${Math.cos(angle)*distance}px, ${Math.sin(angle)*distance}px)`, opacity: 0 }
-    ], { duration: 1000 });
-
-    document.body.appendChild(fw);
-    setTimeout(()=>fw.remove(),1000);
+  /* ══ CONFETTI ══ */
+  const canvas = document.getElementById('confetti-canvas');
+  const ctx    = canvas.getContext('2d');
+  let W, H, particles = [];
+  function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+  resize(); window.addEventListener('resize', resize);
+  const cColors = ['#e8416a','#f7c948','#f9a8c9','#b5e7a0','#aed6f1','#ffffff'];
+  function cp() {
+    return { x:Math.random()*W, y:-10, w:Math.random()*10+5, h:Math.random()*6+3,
+      color:cColors[Math.floor(Math.random()*cColors.length)],
+      speed:Math.random()*3+1.5, angle:Math.random()*360,
+      spin:(Math.random()-.5)*4, drift:(Math.random()-.5)*1.5 };
   }
-}
+  for (let i = 0; i < 80; i++) { const p = cp(); p.y = Math.random()*H; particles.push(p); }
+  function drawConfetti() {
+    ctx.clearRect(0,0,W,H);
+    particles.forEach(p => {
+      ctx.save(); ctx.globalAlpha=.85;
+      ctx.translate(p.x,p.y); ctx.rotate(p.angle*Math.PI/180);
+      ctx.fillStyle=p.color; ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);
+      ctx.restore();
+      p.y+=p.speed; p.x+=p.drift; p.angle+=p.spin;
+      if (p.y>H+20) Object.assign(p,cp());
+    });
+    requestAnimationFrame(drawConfetti);
+  }
+  drawConfetti();
 
-  /* ── Confetti ── */
-  const canvas=document.getElementById('confetti-canvas'),ctx=canvas.getContext('2d');
-  let W,H,particles=[];
-  function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;}
-  resize();window.addEventListener('resize',resize);
-  const colors=['#e8416a','#f7c948','#f9a8c9','#b5e7a0','#aed6f1','#ffffff'];
-  function cp(){return{x:Math.random()*W,y:-10,w:Math.random()*10+5,h:Math.random()*6+3,color:colors[Math.floor(Math.random()*colors.length)],speed:Math.random()*3+1.5,angle:Math.random()*360,spin:(Math.random()-.5)*4,drift:(Math.random()-.5)*1.5};}
-  for(let i=0;i<80;i++){const p=cp();p.y=Math.random()*H;particles.push(p);}
-  function draw(){ctx.clearRect(0,0,W,H);particles.forEach(p=>{ctx.save();ctx.globalAlpha=.85;ctx.translate(p.x,p.y);ctx.rotate(p.angle*Math.PI/180);ctx.fillStyle=p.color;ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);ctx.restore();p.y+=p.speed;p.x+=p.drift;p.angle+=p.spin;if(p.y>H+20)Object.assign(p,cp());});requestAnimationFrame(draw);}
-  draw();
+  /* ══ FLOATING PETALS ══ */
+  const petalEmojis = ['🌸','🌺','💐','🌷','✨','🎀'];
+  for (let i = 0; i < 8; i++) {
+    const el = document.createElement('span');
+    el.className = 'petal';
+    el.textContent = petalEmojis[Math.floor(Math.random()*petalEmojis.length)];
+    el.style.cssText = `left:${Math.random()*100}vw;animation-duration:${Math.random()*8+6}s;animation-delay:${Math.random()*10}s;font-size:${Math.random()*14+14}px;`;
+    document.body.appendChild(el);
+  }
 
-  /* ── Petals ── */
-  const petals=['🌸','🌺','💐','🌷','✨','🎀'];
-  for(let i=0;i<8;i++){const el=document.createElement('span');el.className='petal';el.textContent=petals[Math.floor(Math.random()*petals.length)];el.style.cssText=`left:${Math.random()*100}vw;animation-duration:${Math.random()*8+6}s;animation-delay:${Math.random()*10}s;font-size:${Math.random()*14+14}px;`;document.body.appendChild(el);}
+  /* ══ MESSAGE REVEAL ══ */
+  const lines = ['m1','m2','m3','m4','m5','m6'];
+  let step = 0;
+  function revealNext() {
+    if (step < lines.length) {
+      document.getElementById(lines[step]).classList.add('visible');
+      step++;
+    }
+    if (step >= lines.length) {
+      const b = document.getElementById('revealBtn');
+      b.textContent = "💖 That's All My Love!";
+      b.disabled = true;
+    }
+  }
 
-  /* ── Message Reveal ── */
-  const lines=['m1','m2','m3','m4','m5','m6'];let step=0;
-  function revealNext(){if(step<lines.length){document.getElementById(lines[step]).classList.add('visible');step++;}if(step>=lines.length){const b=document.getElementById('revealBtn');b.textContent="💖 That's All My Love!";b.disabled=true;}}
+  /* ══ LIGHTBOX ══ */
+  function openLightbox(src) {
+    document.getElementById('lightbox-img').src = src;
+    document.getElementById('lightbox').classList.add('active');
+  }
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('active');
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
 
-  /* ── Lightbox ── */
-  function openLightbox(src){document.getElementById('lightbox-img').src=src;document.getElementById('lightbox').classList.add('active');}
-  function closeLightbox(){document.getElementById('lightbox').classList.remove('active');}
-  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLightbox();});
+  /* ══ SCROLL REVEAL ══ */
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), Number(e.target.dataset.delay||0));
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: .2 });
+  document.querySelectorAll('.wish-card').forEach(c => obs.observe(c));
 
-  /* ── Scroll Reveal ── */
-  const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),Number(e.target.dataset.delay||0));obs.unobserve(e.target);}});},{threshold:.2});
-  document.querySelectorAll('.wish-card').forEach(c=>obs.observe(c));
+  /* ══ STEP 7: FINAL POPUP after 20 seconds ══ */
+  setTimeout(() => {
+    document.getElementById('final-popup').style.display = 'flex';
+  }, 20000);
 
-setTimeout(() => {
-  const popup = document.getElementById("final-popup");
-  popup.innerHTML = `
-  💖 Minakshi 💖<br><br>
-  You are my everything 🌸<br><br>
-  Happy Birthday 🎂✨<br><br>
-  — Forever Yours 💌
-  `;
-  popup.style.display = "flex";
-}, 20000);
 </script>
 </body>
 </html>
